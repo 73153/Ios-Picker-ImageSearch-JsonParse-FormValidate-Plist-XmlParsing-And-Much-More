@@ -1,0 +1,14 @@
+language: objective-c
+podfile: Tests/Podfile
+xcode_workspace: Tests/Tests.xcworkspace
+xcode_scheme: Tests
+xcode_sdk: iphonesimulator
+osx_image: xcode61
+before_script:
+- brew install libyaml
+- sudo easy_install cpp-coveralls
+- sudo easy_install pyyaml
+- sudo easy_install gcovr    
+script: xctool clean test -workspace Tests/Tests.xcworkspace -scheme Tests -sdk iphonesimulator OBJROOT=./Build  
+after_success:
+- coveralls -e Tests/Pods -e Tests/Tests -e Examples --gcov-options '\-lp'
